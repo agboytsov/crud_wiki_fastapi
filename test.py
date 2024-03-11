@@ -33,8 +33,6 @@ def test_save():
     create_article(art_title, desc=desc, team=team, lst=blocks)
 
 
-
-
 def test_all_team():
     test = (i.id for i in get_articles(12))
     print(*test)
@@ -47,6 +45,8 @@ def test_get_article():
         print(article[0].title, *[i.content for i in article[1]])
     else:
         print(article)
+
+
 test_save()
 test_all_team()
 test_get_article()
