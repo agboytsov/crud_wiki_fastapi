@@ -26,3 +26,12 @@ class Article_content(Base):
     type = Column(String(250), nullable=False)
     content = Column(Text, nullable=True)
     position = Column(Integer, nullable=False)
+
+
+# class Content_type(Base):
+#     __tablename__ = 'content_types'
+#
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String(250), nullable=False)
+#
+#     features = Column(Text, nullable=True)
