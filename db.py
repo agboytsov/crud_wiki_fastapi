@@ -3,9 +3,9 @@ import random
 
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import Session
-from models import Article, Article_content, Base
+from models import Article, Article_content, Base, ContentType
 
-db = "sqlite:///test.db"
+db = "sqlite:///new.db"
 
 engine = create_engine(db)
 
@@ -99,4 +99,37 @@ def update_article(article: int, new: dict) -> None:
         session.add_all(content)
         session.commit()
 
+
+def create_type(name,
+                tpl,
+                html=None,
+                features=None,
+                default_class=None,
+                attrs=None
+                ) -> None:
+    """Добавляем тип блока"""
+    with Session(engine) as session:
+        # добавляем саму статью
+        created = datetime.datetime.now()
+        article = ContentType(
+            name=name,
+            html=html,
+            tpl=tpl,
+            features=features,
+            default_class=default_class,
+            attrs=attrs
+        )
+        session.add(article)
+        session.commit()
+
+
+def block_info(block):
+    try:
+        with Session(engine) as session:
+            block_meta = session.query(ContentType).filter(ContentType.name == block).first()
+
+        return block_meta
+    except AttributeError as e:
+        print(e)
+        return
 

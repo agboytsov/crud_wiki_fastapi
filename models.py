@@ -26,12 +26,16 @@ class Article_content(Base):
     type = Column(String(250), nullable=False)
     content = Column(Text, nullable=True)
     position = Column(Integer, nullable=False)
+    add_class = Column(String(500), nullable=True)
 
 
-# class Content_type(Base):
-#     __tablename__ = 'content_types'
-#
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(250), nullable=False)
-#
-#     features = Column(Text, nullable=True)
+class ContentType(Base):
+    __tablename__ = 'content_types'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    html = Column(String(50), nullable=True)
+    tpl = Column(String(250), nullable=False)
+    features = Column(Text, nullable=True)
+    default_class = Column(String(250), nullable=True)
+    attrs = Column(String(500), nullable=True)

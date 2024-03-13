@@ -1,25 +1,27 @@
 from db import *
 
-art = get_article(3)
 
-with open('templates/article.html','r', encoding='UTF-8') as t:
-    template = t.read()
-    template = template.replace('{{TITLE}}', art[0].title).replace('{{DESC}}', art[0].description)
-    content = ''
-    for block in art[1]:
-        if block.type == 'img':
-            with open('templates/blocks/img.html') as img:
-                image = img.read()
-                im = image.replace('{{content}}', block.content)
-                string = f'<div>{im}</div>'
-            content += string
-        else:
-            with open('templates/blocks/text.html') as txt:
-                text = txt.read()
-                text = text.replace('{{content}}', block.content)
-                string = f'<div>{text}</div>'
+def check():
+    art = get_article(random.randint(1,4))
+    with open('templates/article.html', 'r', encoding='UTF-8') as t:
+        template = t.read()
+        template = template.replace('{{TITLE}}', art[0].title).replace('{{DESC}}', art[0].description)
+        content = ''
+        for block in art[1]:
+            block_meta = block_info(block.type)
+
+            if block_meta:
+                class_ = f'{block_meta.default_class}'
+                if block.add_class:
+                    class_ += f' block.add_class'
+                with open(f'templates/blocks/{block_meta.tpl}') as f:
+                    file = f.read()
+                    cont = file.replace('{{class}}', class_).replace('{{content}}', block.content)
+                    string = f'<div>{cont}</div>'
                 content += string
-    template = template.replace('{{ARTICLE}}', content)
-with open('new.html', 'w') as f:
-    f.write(template)
+
+        template = template.replace('{{ARTICLE}}', content)
+    return template
+    # with open('new.html', 'w') as f:
+    #     f.write(template)
 
