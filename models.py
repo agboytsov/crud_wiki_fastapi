@@ -39,3 +39,11 @@ class ContentType(Base):
     features = Column(Text, nullable=True)
     default_class = Column(String(250), nullable=True)
     attrs = Column(String(500), nullable=True)
+
+
+class Block_texts(Base):
+    __tablename__ = 'block_texts'
+
+    id = Column(Integer, primary_key=True)
+    content = Column(String(2000), nullable=True)
+    class_name = Column(String(300), nullable=True)
