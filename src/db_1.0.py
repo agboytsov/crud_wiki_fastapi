@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 # from models import Article, Article_content, Base, ContentType
 from src.models.models import *
 
-db = "sqlite:///new_1.db"
+db = "sqlite:///new_old.db"
 
 engine = create_engine(db)
 
