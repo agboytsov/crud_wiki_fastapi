@@ -53,16 +53,17 @@ class BlockTypes(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(250), nullable=False)  # название для отображения
+    model: Mapped[str] = mapped_column(String(250), nullable=False)
     func: Mapped[str] = mapped_column(String(250), nullable=False)  # имя возвращаемой функции
     main_class: Mapped[str] = mapped_column(String(250), nullable=True)  # класс для отображения на фронте
-    content_type: Mapped[int] = mapped_column(ForeignKey('content_types.id'))  # тип для подгрузки доп классов/CSS
+    content_type: Mapped[int] = mapped_column(String(100), nullable=True)  # тип - строка, список, словарь
 
 
-class ContentTypes(Base):
-    __tablename__ = 'content_types'
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str] = mapped_column(String(250), nullable=False)  # название для отображения
-    main_class: Mapped[str]
-    additional_class: Mapped[str]
-    type: Mapped[str]  # тип - строка, список, словарь
+# class ContentTypes(Base):
+#     __tablename__ = 'content_types'
+#
+#     id: Mapped[int] = mapped_column(primary_key=True)
+#     title: Mapped[str] = mapped_column(String(250), nullable=False)  # название для отображения
+#     main_class: Mapped[str]
+#     additional_class: Mapped[str]
+#     type: Mapped[str]  # тип - строка, список, словарь
