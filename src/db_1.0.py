@@ -1,11 +1,7 @@
-import datetime
-import random
-
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import Session
 # from models import Article, Article_content, Base, ContentType
-from block_models import *
-from models import *
+from src.models.models import *
 
 db = "sqlite:///new_1.db"
 

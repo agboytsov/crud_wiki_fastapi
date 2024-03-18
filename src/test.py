@@ -1,6 +1,6 @@
 import random
 
-from db import create_article, get_articles, get_article, create_type
+from src.db import create_article, get_articles, get_article, create_type
 
 
 def test_save():
