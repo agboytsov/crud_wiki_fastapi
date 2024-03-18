@@ -45,5 +45,33 @@ class Block_texts(Base):
     __tablename__ = 'block_texts'
 
     id = Column(Integer, primary_key=True)
+    content = Column(String(256), nullable=True)
+    class_name = Column(String(300), nullable=True)
+
+class Block_images(Base):
+    __tablename__ = 'block_images'
+
+    id = Column(Integer, primary_key=True)
+    content = Column(String(2000), nullable=True)
+    class_name = Column(String(300), nullable=True)
+
+class Block_header(Base):
+    __tablename__ = 'block_header'
+
+    id = Column(Integer, primary_key=True)
+    content = Column(String(250), nullable=True)
+    class_name = Column(String(300), nullable=True)
+
+class Block_video(Base):
+    __tablename__ = 'block_video'
+
+    id = Column(Integer, primary_key=True)
+    content = Column(String(250), nullable=True)
+    class_name = Column(String(300), nullable=True)
+
+class Block_checklists(Base):
+    __tablename__ = 'block_checklists'
+
+    id = Column(Integer, primary_key=True)
     content = Column(String(2000), nullable=True)
     class_name = Column(String(300), nullable=True)
