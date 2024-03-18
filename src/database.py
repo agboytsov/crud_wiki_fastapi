@@ -1,4 +1,4 @@
-from __future__ import annotations
+# from __future__ import annotations
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase
@@ -10,4 +10,4 @@ engine = create_engine(db)
 class Base(DeclarativeBase):
     pass
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)

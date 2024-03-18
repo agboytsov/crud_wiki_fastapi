@@ -29,8 +29,9 @@ class Article(Base):
     description: Mapped[str] = mapped_column(String(2000), nullable=True)
     created: Mapped[datetime.datetime] = mapped_column(nullable=False)
     edited: Mapped[datetime.datetime] = mapped_column(nullable=True)
+    # test: Mapped[str]
     # blocks: Mapped[Optional['ArticleContent']] = relationship(back_populates='Article')
-    team: Mapped[int] = mapped_column(nullable=True)
+    # team: Mapped[int] = mapped_column(nullable=True)
 
     # blocks = relationship('ArticleContent', back_populates='artic')
     # team: Mapped[int|None] = mapped_column(ForeignKey('teams.id'), nullable=True)  # пока что для теста может быть null
