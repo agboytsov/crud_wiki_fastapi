@@ -38,7 +38,7 @@ class BlockVideo(Base):
     block_type: Mapped[int] = mapped_column(ForeignKey('article_blocks.id'))
     src: Mapped[str] = mapped_column(String(256), nullable=True)
     type: Mapped[str] = mapped_column(String(256), nullable=True)
-    file: Mapped[int]
+    file: Mapped[int] mapped_column(ForeignKey('files.id'), nullable=True)
     class_name = mapped_column(String(300), nullable=True)
     controls: Mapped[bool]
     autoplay: Mapped[bool]
@@ -49,6 +49,7 @@ class BlockList(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     block_type: Mapped[int] = mapped_column(ForeignKey('article_blocks.id'))
     items: Mapped[List['ListsItems']] = relationship()
+    class_name = mapped_column(String(300), nullable=True)
 
 class ListsItems(Base):
     __tablename__ = 'lists_items'
