@@ -1,77 +1,68 @@
+import datetime
+from typing import List
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 class Article(Base):
     __tablename__ = 'articles'
 
-    id = Column(Integer, primary_key=True)
-    team = Column(String(250), nullable=True)
-    title = Column(String(250), nullable=False)
-    description = Column(Text, nullable=True)
-    badges = Column(Text, nullable=True)
-    parent = Column(String(250), nullable=True)
-    created = Column(DateTime, nullable=False)
-    edited = Column(Text, nullable=True)
-    category = Column(String(250), nullable=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(250))
+    description: Mapped[str] = mapped_column(String(2000), nullable=True)
+    created: Mapped[datetime.datetime] = mapped_column(nullable=False)
+    edited: Mapped[datetime.datetime]
+    blocks: Mapped[List['ArticleContent']] = relationship()
+    parent: Mapped[int]
+    team: Mapped[int] = mapped_column(ForeignKey('teams.id'))
 
 
-class Article_content(Base):
+class ArticleContent(Base):
     __tablename__ = 'article_content'
 
-    id = Column(Integer, primary_key=True)
-    article = Column(Integer, ForeignKey('articles.id'), nullable=False)
-    type = Column(String(250), nullable=False)
-    content = Column(Text, nullable=True)
-    position = Column(Integer, nullable=False)
-    add_class = Column(String(500), nullable=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    blocks: Mapped[List['ArticleBlocks']] = relationship()
 
 
-class ContentType(Base):
+class Teams(Base):
+    __tablename__ = 'teams'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    # name: Mapped[str] #Название команды ? нужно ли его хранить у нас в бд?
+    # parent: Mapped[int]  #подкоманды со своими правами?
+
+
+class ArticleBlocks(Base):
+    __tablename__ = 'article_blocks'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    article_id: Mapped[int] = mapped_column(ForeignKey('articles.id'), nullable=False)
+    block_type: Mapped[int] = mapped_column(ForeignKey('block_types.id'), nullable=False)
+    block_id: Mapped[int] = mapped_column(nullable=False)
+
+
+class BlockTypes(Base):
+    __tablename__ = 'block_types'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(250), nullable=False)  # название для отображения
+    func: Mapped[str] = mapped_column(String(250), nullable=False)  # имя возвращаемой функции
+    main_class: Mapped[str] = mapped_column(String(250), nullable=True)  # класс для отображения на фронте
+    content_type: Mapped[int] = mapped_column(ForeignKey('content_types.id'))  # тип для подгрузки доп классов/CSS
+
+
+class ContentTypes(Base):
     __tablename__ = 'content_types'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    html = Column(String(50), nullable=True)
-    tpl = Column(String(250), nullable=False)
-    features = Column(Text, nullable=True)
-    default_class = Column(String(250), nullable=True)
-    attrs = Column(String(500), nullable=True)
-
-
-class Block_texts(Base):
-    __tablename__ = 'block_texts'
-
-    id = Column(Integer, primary_key=True)
-    content = Column(String(256), nullable=True)
-    class_name = Column(String(300), nullable=True)
-
-class Block_images(Base):
-    __tablename__ = 'block_images'
-
-    id = Column(Integer, primary_key=True)
-    content = Column(String(2000), nullable=True)
-    class_name = Column(String(300), nullable=True)
-
-class Block_header(Base):
-    __tablename__ = 'block_header'
-
-    id = Column(Integer, primary_key=True)
-    content = Column(String(250), nullable=True)
-    class_name = Column(String(300), nullable=True)
-
-class Block_video(Base):
-    __tablename__ = 'block_video'
-
-    id = Column(Integer, primary_key=True)
-    content = Column(String(250), nullable=True)
-    class_name = Column(String(300), nullable=True)
-
-class Block_checklists(Base):
-    __tablename__ = 'block_checklists'
-
-    id = Column(Integer, primary_key=True)
-    content = Column(String(2000), nullable=True)
-    class_name = Column(String(300), nullable=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(250), nullable=False)  # название для отображения
+    main_class: Mapped[str]
+    additional_class: Mapped[str]
+    type: Mapped[str]  # тип - строка, список, словарь

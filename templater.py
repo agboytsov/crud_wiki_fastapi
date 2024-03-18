@@ -1,13 +1,8 @@
 from db import *
 
 
-def check(num=1):
-    art = get_article(num)
-    article_json = {
-        'title':art[0].title,
-        'description':art[0].description,
-        'blocks':art[1]
-    }
+def check():
+    art = get_article(random.randint(1,4))
     with open('templates/article.html', 'r', encoding='UTF-8') as t:
         template = t.read()
         template = template.replace('{{TITLE}}', art[0].title).replace('{{DESC}}', art[0].description)
@@ -26,7 +21,7 @@ def check(num=1):
                 content += string
 
         template = template.replace('{{ARTICLE}}', content)
-    return template, article_json
+    return template
     # with open('new.html', 'w') as f:
     #     f.write(template)
 
