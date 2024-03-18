@@ -61,6 +61,6 @@ def delete_article(article):
 def get_blocks(article):
     print(article)
     with Session(engine) as session:
-        article = session.get(Article, article)
-        blocks = session.get(ArticleContent, article)
-        return blocks
+        # article = session.get(Article, article)
+        blocks = select(ArticleContent).where(ArticleContent.article_id == article)
+        return session.execute(blocks)

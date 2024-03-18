@@ -3,7 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase
 
-db = "sqlite:///new_old.db"
+db = "sqlite:///new_1.db"
 engine = create_engine(db)
 
 
