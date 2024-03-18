@@ -23,7 +23,7 @@ class BlockImages(Base):
 
 
 class BlockHeader(Base):
-    __tablename__ = 'block_texts'
+    __tablename__ = 'block_headers'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     block_type: Mapped[int] = mapped_column(ForeignKey('article_blocks.id'))
@@ -32,13 +32,13 @@ class BlockHeader(Base):
 
 
 class BlockVideo(Base):
-    __tablename__ = 'block_images'
+    __tablename__ = 'block_videos'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     block_type: Mapped[int] = mapped_column(ForeignKey('article_blocks.id'))
     src: Mapped[str] = mapped_column(String(256), nullable=True)
     type: Mapped[str] = mapped_column(String(256), nullable=True)
-    file: Mapped[int] mapped_column(ForeignKey('files.id'), nullable=True)
+    # file: Mapped[int] =  mapped_column(ForeignKey('files.id'), nullable=True)
     class_name = mapped_column(String(300), nullable=True)
     controls: Mapped[bool]
     autoplay: Mapped[bool]

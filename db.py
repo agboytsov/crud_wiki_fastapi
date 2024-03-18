@@ -3,9 +3,10 @@ import random
 
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import Session
-from models import Article, Article_content, Base, ContentType
+# from models import Article, Article_content, Base, ContentType
+from block_models import *
 
-db = "sqlite:///new.db"
+db = "sqlite:///new_1.db"
 
 engine = create_engine(db)
 
