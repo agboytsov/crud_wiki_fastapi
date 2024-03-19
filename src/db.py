@@ -13,22 +13,23 @@ def get_class(class_name):
 
 def create_article(
         title: str,
-        desc: str = None,
+        description: str = None,
         blocks: list[dict] | None = None,
         team: str = None,
         parent: int = None,
-) -> None:
+) -> Article:
     with Session(engine) as session:
         created = datetime.datetime.now()
         article = Article(
             title=title,
-            description=desc,
+            description=description,
             created=created,
-            parent=parent,
-            team=team,
+            # parent=parent,
+            # team=team,
         )
         session.add(article)
         session.commit()
+        return article.id
 
 
 def get_article(article: int):
@@ -64,6 +65,7 @@ def get_blocks(article):
         # article = session.get(Article, article)
         try:
             blocks = select(ArticleContent).where(ArticleContent.article_id == article)
+            зкште(blocks)
             return session.execute(blocks)
         except Exception as e:
             print(e)

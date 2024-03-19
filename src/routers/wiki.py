@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Body, status
 from fastapi.responses import JSONResponse
-from db import get_article, get_blocks
+from db import get_article, get_blocks, create_article
+from schema.fa_models import *
 
 router = APIRouter(tags=['articles'], prefix='/wiki', )
 
@@ -16,10 +17,11 @@ async def show_articles():
     pass
 
 
-@router.post('/articles')
-async def new_article(data=Body()):
+@router.post('/articles', status_code=status.HTTP_201_CREATED)
+async def new_article(article: ArticleCreateModel):
     """Создаем новую статью"""
-    pass
+    a = create_article(title=article.title, description=article.description)
+    return {'article_id': a}
 
 
 @router.get('/articles/{art_id}')
