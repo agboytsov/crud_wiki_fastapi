@@ -60,13 +60,11 @@ def delete_article(article: int):
 
 
 def get_blocks(article):
-    print(type(article))
     with Session(engine) as session:
-        # article = session.get(Article, article)
         try:
             blocks = select(ArticleContent).where(ArticleContent.article_id == article)
-            зкште(blocks)
-            return session.execute(blocks)
+            blocks = session.execute(blocks).all()
+            return blocks
         except Exception as e:
             print(e)
             return
