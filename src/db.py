@@ -1,6 +1,6 @@
 import sys
 
-from sqlalchemy import create_engine, desc, select
+from sqlalchemy import create_engine, desc, select, delete
 from sqlalchemy.orm import Session
 
 from models.models import *
@@ -9,7 +9,7 @@ from database import engine
 from handlers.block_funcs import *
 
 
-def get_class(class_name):
+def get_class(class_name): # не всегда работает нормально, зависит от путей
     return getattr(sys.modules[__name__], class_name)
 
 
@@ -92,15 +92,16 @@ def create_block(block):
         session.add(new_block)
         session.commit()
         func, model = funcs_and_models.get(block.type)  # протестировать
+
         block_to_parse = {'content': block.content, 'block_id': new_block.id}
-        # block_id = func(block_to_parse, model, session)
-        print(new_block.block_id)
+
         new_block.block_id = func(block_to_parse, model, session)
-        print(new_block.block_id)
+
         session.add(new_block)
         session.commit()
 
-        # model = get_class(block.type)
-        # print(model)
-        # func = get_class(block.type+'_parser')
-        # print(model)
+def delete_blocks(art:int):
+    with (Session(engine) as session):
+        bl = delete(ArticleContent).filter(ArticleContent.article_id == art)
+        bl = session.execute(bl)
+        session.commit()
