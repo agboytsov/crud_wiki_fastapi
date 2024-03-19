@@ -8,7 +8,7 @@ router = APIRouter(tags=['articles'], prefix='/wiki', )
 
 @router.get('/')
 async def start():
-    return {'1': 0}
+    return {'description': 'База данных - статьи и прочая полезная инфа'}
 
 
 @router.get('/articles')
