@@ -16,3 +16,9 @@ class ArticleUpdateModel(BaseModel):
     description: str | None = None
     parent: int | None = None
     lst: List | None = None
+
+class ArticleContentCreateModel(BaseModel):
+    article_id: int
+    type: str
+    block_id:  int | None = None
+    content: dict

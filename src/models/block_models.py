@@ -1,15 +1,16 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
-from models import *
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from database import Base
+#
+class BlockTexts(Base):
+    __tablename__ = 'block_texts'
 
-#
-# class BlockTexts(Base):
-#     __tablename__ = 'block_texts'
-#
-#     id: Mapped[int] = mapped_column(primary_key=True)
-#     block_type: Mapped[int] = mapped_column(ForeignKey('article_blocks.id'))
-#     content: Mapped[str] = mapped_column(String(256), nullable=True)
-#     class_name: Mapped[str] = mapped_column(String(300), nullable=True)
-#
+    id: Mapped[int] = mapped_column(primary_key=True)
+    block_id: Mapped[int] = mapped_column(ForeignKey('article_content.id'))
+    content: Mapped[str] = mapped_column(String(256), nullable=True)
+    class_name: Mapped[str] = mapped_column(String(300), nullable=True)
+
 #
 # class BlockImages(Base):
 #     __tablename__ = 'block_images'

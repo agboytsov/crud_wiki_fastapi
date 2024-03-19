@@ -4,7 +4,9 @@ from sqlalchemy import create_engine, desc, select
 from sqlalchemy.orm import Session
 
 from models.models import *
+from models.block_models import *
 from database import engine
+from handlers.block_funcs import *
 
 
 def get_class(class_name):
@@ -29,7 +31,8 @@ def create_article(
         )
         session.add(article)
         session.commit()
-        return article.id
+        article_id = article.id
+    return article_id
 
 
 def get_article(article: int):
@@ -64,7 +67,40 @@ def get_blocks(article):
         try:
             blocks = select(ArticleContent).where(ArticleContent.article_id == article)
             blocks = session.execute(blocks).all()
-            return blocks
+
+            result = []
+            for block in blocks:
+                result.append({
+                    'type': block[0].block_model,
+                    'id': block[0].block_id
+                })
+            print(result)
+            return result
         except Exception as e:
             print(e)
             return
+
+
+funcs_and_models = {
+    'BlockTexts': (BlockTexts_parser, BlockTexts)
+}
+
+
+def create_block(block):
+    with Session(engine) as session:
+        new_block = ArticleContent(article_id=block.article_id, block_model=block.type, block_id=0)
+        session.add(new_block)
+        session.commit()
+        func, model = funcs_and_models.get(block.type)  # протестировать
+        block_to_parse = {'content': block.content, 'block_id': new_block.id}
+        # block_id = func(block_to_parse, model, session)
+        print(new_block.block_id)
+        new_block.block_id = func(block_to_parse, model, session)
+        print(new_block.block_id)
+        session.add(new_block)
+        session.commit()
+
+        # model = get_class(block.type)
+        # print(model)
+        # func = get_class(block.type+'_parser')
+        # print(model)

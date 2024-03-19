@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 
 
 from database import Base
-
+from models.block_models import *
 
 class ArticleContent(Base):
     __tablename__ = 'article_content'

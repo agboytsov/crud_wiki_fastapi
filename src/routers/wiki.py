@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body, status
 from fastapi.responses import JSONResponse
-from db import get_article, get_blocks, create_article
+from db import get_article, get_blocks, create_article, create_block
 from schema.fa_models import *
 
 router = APIRouter(tags=['articles'], prefix='/wiki', )
@@ -35,6 +35,14 @@ async def article(art_id):
         return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
                 content={ "message": "Статья не найдена" })
+
+
+@router.post('/block')
+async def cr_block(block:ArticleContentCreateModel):
+    create_block(block)
+    return block
+
+
 
 # @router.put('/articles/{art_id}')
 #
