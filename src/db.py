@@ -51,7 +51,7 @@ def update_article(article: int, new: dict):
         session.commit()
 
 
-def delete_article(article):
+def delete_article(article: int):
     with Session(engine) as session:
         article = session.get(Article, article)
         session.delete(article)
@@ -59,8 +59,12 @@ def delete_article(article):
 
 
 def get_blocks(article):
-    print(article)
+    print(type(article))
     with Session(engine) as session:
         # article = session.get(Article, article)
-        blocks = select(ArticleContent).where(ArticleContent.article_id == article)
-        return session.execute(blocks)
+        try:
+            blocks = select(ArticleContent).where(ArticleContent.article_id == article)
+            return session.execute(blocks)
+        except Exception as e:
+            print(e)
+            return

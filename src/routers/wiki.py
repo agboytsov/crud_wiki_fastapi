@@ -27,8 +27,9 @@ async def article(art_id):
     '''Возврашает отдельную статью'''
     article = get_article(art_id)
     if article:
-        blocks = get_blocks(art_id)
+        # blocks = get_blocks(art_id)
         # print(blocks)
+        blocks = []  #пока заглушка
         return {'id': art_id, 'title': article.title, 'desc': article.description, 'blocks': blocks}
     else:
         return JSONResponse(
