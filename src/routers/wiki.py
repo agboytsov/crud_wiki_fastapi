@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body, status
 from fastapi.responses import JSONResponse
-from db import get_article, get_blocks, create_article, create_block, delete_blocks, create_company
+from db import get_article, get_blocks, create_article, create_block, delete_blocks
 from schema.fa_models import *
 
 router = APIRouter(tags=['articles'], prefix='/wiki', )
@@ -46,12 +46,6 @@ async def cr_block(block:ArticleContentCreateModel):
 async def blocks_del(art):
     delete_blocks(art)
     return art
-
-
-@router.post('/company')
-async def cr_company():
-    create_company()
-
 
 # @router.put('/articles/{art_id}')
 #

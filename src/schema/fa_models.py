@@ -5,8 +5,8 @@ from pydantic import BaseModel
 class ArticleCreateModel(BaseModel):
     title: str
     description: str | None = None
+    team: int | None = None
     parent: int | None = None
-    company: int
     lst: List | None = None
 
 

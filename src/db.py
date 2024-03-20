@@ -9,23 +9,15 @@ from database import engine
 from handlers.block_funcs import *
 
 
-def get_class(class_name):  # не всегда работает нормально, зависит от путей
+def get_class(class_name): # не всегда работает нормально, зависит от путей
     return getattr(sys.modules[__name__], class_name)
-
-
-def create_company(quniq_id=0):
-    with Session(engine) as session:
-        company = Companies(quniq_id=quniq_id)
-        session.add(company)
-        session.commit()
-        return company.id
 
 
 def create_article(
         title: str,
         description: str = None,
         blocks: list[dict] | None = None,
-        company: int = 1,
+        team: str = None,
         parent: int = None,
 ) -> Article:
     with Session(engine) as session:
@@ -33,10 +25,9 @@ def create_article(
         article = Article(
             title=title,
             description=description,
-            created_at=created,
-            updated_at=created,
-            company_id=company,
-            parent_id=parent
+            created=created,
+            # parent=parent,
+            # team=team,
         )
         session.add(article)
         session.commit()
@@ -64,7 +55,7 @@ def update_article(article: int, new: dict):
         session.commit()
 
 
-def delete_article(article: int):  # TBD: перевод в разряд не активных
+def delete_article(article: int):
     with Session(engine) as session:
         article = session.get(Article, article)
         session.delete(article)
@@ -81,8 +72,7 @@ def get_blocks(article):
             for block in blocks:
                 result.append({
                     'type': block[0].block_model,
-                    'id': block[0].block_id,
-                    'content':block_parser(block[0])
+                    'id': block[0].block_id
                 })
             print(result)
             return result
@@ -92,15 +82,8 @@ def get_blocks(article):
 
 
 funcs_and_models = {
-    'BlockTexts': (BlockTexts_parser, BlockTexts),
+    'BlockTexts': (BlockTexts_parser, BlockTexts)
 }
-
-
-def block_parser(block):
-    func, model = funcs_and_models.get(block.block_model)
-    with Session(engine) as session:
-        result = func({'block_id': block.block_id}, model, session, add=False)
-        return result
 
 
 def create_block(block):
@@ -117,8 +100,7 @@ def create_block(block):
         session.add(new_block)
         session.commit()
 
-
-def delete_blocks(art: int):
+def delete_blocks(art:int):
     with (Session(engine) as session):
         bl = delete(ArticleContent).filter(ArticleContent.article_id == art)
         bl = session.execute(bl)

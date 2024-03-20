@@ -6,10 +6,4 @@ def BlockTexts_parser(block, Model, session, add:bool = True):
             session.commit()
             print(new.id)
             return new.id
-    else:
-        with session:
-            bl = session.get(Model, block['block_id'])
-            print(bl)
-            return {'block_id': bl.id, 'content': bl.content,'type':bl.class_name}
-
 
