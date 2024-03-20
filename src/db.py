@@ -81,7 +81,8 @@ def get_blocks(article):
             for block in blocks:
                 result.append({
                     'type': block[0].block_model,
-                    'id': block[0].block_id
+                    'id': block[0].block_id,
+                    'content': block_parser(block[0])
                 })
             print(result)
             return result

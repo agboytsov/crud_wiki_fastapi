@@ -1,7 +1,7 @@
 def BlockTexts_parser(block, Model, session, add:bool = True):
     if add:
         with session:
-            new = Model(block_id=block['block_id'], content=block['content']['content'], class_name=block.get('class_name', None))
+            new = Model(block_id=block['block_id'], content=block['content']['content'], class_name=block['content'].get('type', None))
             session.add(new)
             session.commit()
             print(new.id)
@@ -10,6 +10,6 @@ def BlockTexts_parser(block, Model, session, add:bool = True):
         with session:
             bl = session.get(Model, block['block_id'])
             print(bl)
-            return {'block_id': bl.id, 'content': bl.content}
+            return {'block_id': bl.id, 'content': bl.content, 'type':bl.class_name}
 
 
