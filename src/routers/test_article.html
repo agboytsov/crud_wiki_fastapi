@@ -1,0 +1,37 @@
+<html>
+<head>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            var art = 1
+            $.ajax({
+                url: '/wiki/articles/'+art,             // указываем URL и
+                dataType : "json",                     // тип загружаемых данных
+                success: function (data) { // вешаем свой обработчик на функцию success
+                     var title = data['title'];
+                     var desc = data['description'];
+                     $('#title').html('<h1>'+title+'</h1>');
+                     $('#description').html('<p>'+desc+'</p>');
+
+                     }
+            });
+
+});
+
+
+
+    </script>
+</head>
+<body>
+<h1 id="title"></h1>
+
+<p id="description">
+
+</p>
+<div id="content"></div>
+
+</body>
+</html>

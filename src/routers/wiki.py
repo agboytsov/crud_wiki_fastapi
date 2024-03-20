@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Body, status
 from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse
 from db import get_article, get_blocks, create_article, create_block, delete_blocks, create_company
 from schema.fa_models import *
 
@@ -52,6 +53,13 @@ async def blocks_del(art):
 async def cr_company():
     create_company()
 
+
+@router.get('/test')
+async def test():
+    tpl = './routers/test_article.html'
+    with open(tpl,'r', encoding='UTF-8') as f:
+        result = f.read()
+    return HTMLResponse(content=result)
 
 # @router.put('/articles/{art_id}')
 #
