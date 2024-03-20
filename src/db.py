@@ -123,3 +123,6 @@ def delete_blocks(art: int):
         bl = delete(ArticleContent).filter(ArticleContent.article_id == art)
         bl = session.execute(bl)
         session.commit()
+
+        ####
+
