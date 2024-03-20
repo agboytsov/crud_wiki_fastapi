@@ -7,6 +7,7 @@ from schema.fa_models import *
 router = APIRouter(tags=['articles'], prefix='/wiki', )
 
 
+
 @router.get('/')
 async def start():
     return {'description': 'База данных - статьи и прочая полезная инфа'}
