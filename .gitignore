@@ -1,2 +1,4 @@
 /.idea
-.env
+src/.env
+/src/migrations_/
+/src/migration_old/
