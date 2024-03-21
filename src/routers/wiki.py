@@ -22,8 +22,14 @@ async def show_articles():
 @router.post('/articles', status_code=status.HTTP_201_CREATED)
 async def new_article(article: ArticleCreateModel):
     """Создаем новую статью"""
-    a = create_article(title=article.title, description=article.description)
-    return {'article_id': a}
+    a = create_article(
+        title=article.title,
+        description=article.description,
+        company=article.company,
+        parent=article.parent,
+        blocks=article.lst,
+    )
+    return {'article_id': a[0], 'errors':a[1]}
 
 
 @router.get('/articles/{art_id}')

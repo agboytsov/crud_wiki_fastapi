@@ -7,6 +7,7 @@ from models.models import *
 from models.block_models import *
 from database import engine
 from handlers.block_funcs import *
+from schema.fa_models import *
 
 
 def get_class(class_name):  # не всегда работает нормально, зависит от путей
@@ -27,7 +28,8 @@ def create_article(
         blocks: list[dict] | None = None,
         company: int = 1,
         parent: int = None,
-) -> Article:
+) -> tuple:
+    errors = []
     with Session(engine) as session:
         created = datetime.datetime.now()
         article = Article(
@@ -38,10 +40,25 @@ def create_article(
             company_id=company,
             parent_id=parent
         )
-        session.add(article)
-        session.commit()
-        article_id = article.id
-    return article_id
+        try:
+            session.add(article)
+            session.commit()
+            article_id = article.id
+        except Exception as e:
+            print(e)
+            article_id = 0
+            errors.append(('article error',e))
+
+        if blocks:
+            if article_id != 0:
+                for block in blocks:
+                    block = ArticleContentCreateModel(article_id=article_id, type=block['type'], content=block['content'])
+                    try:
+                        create_block(block)
+                    except Exception as e:
+                        errors.append(('block error', e))
+
+    return article_id, errors
 
 
 def get_article(article: int):
@@ -106,8 +123,11 @@ def block_parser(block):
 def create_block(block):
     with Session(engine) as session:
         new_block = ArticleContent(article_id=block.article_id, block_model=block.type, block_id=0)
+
         session.add(new_block)
         session.commit()
+        print(new_block.id, block.content)
+
         func, model = funcs_and_models.get(block.type)  # протестировать
 
         block_to_parse = {'content': block.content, 'block_id': new_block.id}
