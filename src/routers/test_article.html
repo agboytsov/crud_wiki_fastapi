@@ -5,20 +5,24 @@
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function(){
-            var art = 1
-            $.ajax({
-                url: '/wiki/articles/'+art,             // указываем URL и
-                dataType : "json",                     // тип загружаемых данных
-                success: function (data) { // вешаем свой обработчик на функцию success
-                     var title = data['title'];
-                     var desc = data['description'];
-                     $('#title').html('<h1>'+title+'</h1>');
-                     $('#description').html('<p>'+desc+'</p>');
+$(document).ready(function(){
+    var art = 24
+    var content = ''
+    $.ajax({
+        url: '/wiki/articles/'+art,             // указываем URL и
+        dataType : "json",                     // тип загружаемых данных
+        success: function (data) { // вешаем свой обработчик на функцию success
+             var myData = data;
+             $('#title').html(myData['title']);
+             $('#description').html(myData['desc']);
+             for (var i = 0; i < myData['blocks'].length; i++) {
+                var el = myData['blocks'][i];
+                content = content + '<p>'+el['content']['content']+'</p>';
+             }
 
-                     }
-            });
-
+             $('div#content').html(content);
+        }
+    })
 });
 
 

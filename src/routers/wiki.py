@@ -26,7 +26,7 @@ async def new_article(article: ArticleCreateModel):
         description=article.description,
         company=article.company,
         parent=article.parent,
-        blocks=article.lst,
+        blocks=article.blocks,
     )
     return {'article_id': a[0], 'errors': a[1]}
 

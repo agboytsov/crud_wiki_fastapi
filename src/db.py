@@ -57,8 +57,8 @@ def create_article(
                     print(pos)
                     block = ArticleContentCreateModel(
                         article_id=article_id,
-                        type=block['type'],
-                        content=block['content'],
+                        type=block.type,
+                        content=block.content,
                         position=pos
                     )
                     try:
