@@ -19,6 +19,7 @@ class ArticleContent(Base):
     # сохраняем модель, потом возьмем айди из модели
     block_model: Mapped[str]
     block_id: Mapped[int]
+    position: Mapped[int]
 
 
 class Companies(Base):

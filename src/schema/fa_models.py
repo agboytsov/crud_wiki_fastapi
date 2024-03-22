@@ -22,3 +22,4 @@ class ArticleContentCreateModel(BaseModel):
     type: str
     block_id:  int | None = None
     content: dict
+    position: int

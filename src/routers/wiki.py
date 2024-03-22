@@ -7,7 +7,6 @@ from schema.fa_models import *
 router = APIRouter(tags=['articles'], prefix='/wiki', )
 
 
-
 @router.get('/')
 async def start():
     return {'description': 'База данных - статьи и прочая полезная инфа'}
@@ -29,7 +28,7 @@ async def new_article(article: ArticleCreateModel):
         parent=article.parent,
         blocks=article.lst,
     )
-    return {'article_id': a[0], 'errors':a[1]}
+    return {'article_id': a[0], 'errors': a[1]}
 
 
 @router.get('/articles/{art_id}')
@@ -38,17 +37,26 @@ async def article(art_id):
     article = get_article(art_id)
     if article:
         blocks = get_blocks(art_id)
-        return {'id': art_id, 'title': article.title, 'desc': article.description, 'blocks': blocks}
+        return {
+            'id': art_id,
+            'title': article.title,
+            'desc': article.description,
+            'blocks': blocks,
+            'parent': article.parent_id,
+            'created_at': article.created_at,
+            'updated_at': article.updated_at
+        }
     else:
         return JSONResponse(
-                status_code=status.HTTP_404_NOT_FOUND,
-                content={ "message": "Статья не найдена" })
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={"message": "Статья не найдена"})
 
 
 @router.post('/block')
-async def cr_block(block:ArticleContentCreateModel):
+async def cr_block(block: ArticleContentCreateModel):
     create_block(block)
     return block
+
 
 @router.delete('/block/{art}')
 async def blocks_del(art):
@@ -64,7 +72,7 @@ async def cr_company():
 @router.get('/test')
 async def test():
     tpl = './routers/test_article.html'
-    with open(tpl,'r', encoding='UTF-8') as f:
+    with open(tpl, 'r', encoding='UTF-8') as f:
         result = f.read()
     return HTMLResponse(content=result)
 

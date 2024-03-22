@@ -51,8 +51,15 @@ def create_article(
 
         if blocks:
             if article_id != 0:
-                for block in blocks:
-                    block = ArticleContentCreateModel(article_id=article_id, type=block['type'], content=block['content'])
+                for i, block in enumerate(blocks):
+                    pos = i+1
+                    print(pos)
+                    block = ArticleContentCreateModel(
+                        article_id=article_id,
+                        type=block['type'],
+                        content=block['content'],
+                        position=pos
+                    )
                     try:
                         create_block(block)
                     except Exception as e:
@@ -122,7 +129,12 @@ def block_parser(block):
 
 def create_block(block):
     with Session(engine) as session:
-        new_block = ArticleContent(article_id=block.article_id, block_model=block.type, block_id=0)
+        new_block = ArticleContent(
+            article_id=block.article_id,
+            block_model=block.type,
+            block_id=0,
+            position=block.position
+        )
 
         session.add(new_block)
         session.commit()
