@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body, status
 from fastapi.responses import JSONResponse
 from fastapi.responses import HTMLResponse
-from db import get_article, get_blocks, create_article, create_block, delete_blocks, create_company
+from db import *
 from schema.fa_models import *
 
 router = APIRouter(tags=['articles'], prefix='/wiki', )
