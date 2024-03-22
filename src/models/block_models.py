@@ -8,7 +8,7 @@ class BlockTexts(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     block_id: Mapped[int] = mapped_column(ForeignKey('article_content.id'))
-    content: Mapped[str] = mapped_column(String(256), nullable=True)
+    content: Mapped[str] = mapped_column(String(2560), nullable=True)
     class_name: Mapped[str] = mapped_column(String(300), nullable=True)
 
 #

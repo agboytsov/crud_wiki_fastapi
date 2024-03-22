@@ -6,7 +6,7 @@
   crossorigin="anonymous"></script>
     <script>
 $(document).ready(function(){
-    var art = 24
+    var art = 34
     var content = ''
     $.ajax({
         url: '/wiki/articles/'+art,             // указываем URL и
@@ -17,7 +17,11 @@ $(document).ready(function(){
              $('#description').html(myData['desc']);
              for (var i = 0; i < myData['blocks'].length; i++) {
                 var el = myData['blocks'][i];
+                if (el['content']['type'] === 'h1') {
+                content = content + '<h1>'+el['content']['content']+'</h1>';
+                } else {
                 content = content + '<p>'+el['content']['content']+'</p>';
+                }
              }
 
              $('div#content').html(content);
