@@ -20,7 +20,7 @@ async def show_articles():
 
 @router.post('/articles', status_code=status.HTTP_201_CREATED)
 async def new_article(article: ArticleCreateModel):
-    """Создаем новую статью"""
+    """Создает новую статью"""
     a = create_article(
         title=article.title,
         description=article.description,
@@ -53,7 +53,7 @@ async def article(art_id):
 
 
 @router.post('/block')
-async def cr_block(block: ArticleContentCreateModel):
+async def new_block(block: ArticleContentCreateModel):
     create_block(block)
     return block
 

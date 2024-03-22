@@ -29,6 +29,7 @@ def create_article(
         company: int = 1,
         parent: int = None,
 ) -> tuple:
+    """Создает статью"""
     errors = []
     with Session(engine) as session:
         created = datetime.datetime.now()
