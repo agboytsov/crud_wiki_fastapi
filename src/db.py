@@ -106,7 +106,8 @@ def get_blocks(article):
                 result.append({
                     'type': block[0].block_model,
                     'id': block[0].block_id,
-                    'content': block_parser(block[0])
+                    'content': block_parser(block[0]),
+                    'position': block[0].position
                 })
             print(result)
             return result
