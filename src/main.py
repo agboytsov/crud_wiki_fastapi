@@ -4,9 +4,11 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 # from templater import *
 from routers.wiki import router as wiki_rout
+from routers.files import router as file_rout
 app = FastAPI()
 
 app.include_router(wiki_rout)
+app.include_router(file_rout)
 
 @app.get("/")
 async def home():
